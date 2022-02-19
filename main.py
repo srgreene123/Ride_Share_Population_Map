@@ -4,6 +4,7 @@ from matplotlib import pyplot
 import seaborn
 import gmplot
 from sklearn import preprocessing
+from sklearn.cluster import DBSCAN
 
 
 # Find the latitude/longitude coordinates for the area of interest
@@ -21,22 +22,28 @@ def get_coordinates():
 
 
 # Find the needed clusters to represent the area
-def find_generalized_clusters():
-    general_area_coordinates = get_coordinates()
+def find_generalized_clusters(general_area_coordinates):
     normalization_prep = preprocessing.StandardScaler()  # prepares standardization on coordinates
     standardized_data = normalization_prep.fit_transform(general_area_coordinates.values)
-    print(standardized_data[0:2])
+    print(standardized_data[0:2])  # take this out??
     general_area_coordinates.head(n=2)
 
-
-# Find optimal distance between clusters
-def find_minimum_distance(coordinates):
-    return 1
+    find_high_pop_clusters(general_area_coordinates, standardized_data)
 
 
 # Find the high density clusters (most populous area)
-def find_high_pop_clusters():
-    return 2
+def find_high_pop_clusters(general_area, standardized_data):
+    epsilon = 0.5  # max distance between clusters to be considered neighbors (arbitrary value)
+    # use DBSCAN algorithm to compare the high density vs low density area in terms of population
+    clusters = DBSCAN(epsilon, min_samples=25).fit(general_area.values)
+    predict_clusters = clusters.fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
+
+    created_clusters = pandas.Series(data=predict_clusters)  #
+    created_clusters.unique()  # create unique clusters so no duplicates are allowed
+
+    general_area['prediction'] = created_clusters.values
+
+    seaborn.scatterplot(data=general_area, hue='Populous Predictions', x='Latitude', y='Longitude')
 
 
 # Create graphical representation of the busiest zones with people for ride-share drivers
@@ -46,5 +53,6 @@ def create_heat_map():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    find_generalized_clusters()
+    general_region = get_coordinates()
+    find_generalized_clusters(general_region)
 
