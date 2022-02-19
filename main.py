@@ -35,7 +35,7 @@ def find_generalized_clusters(general_area_coordinates):
 
 # Find the high density clusters (most populous area)
 def find_high_pop_clusters(general_area, standardized_data):
-    epsilon = 0.5  # max distance between clusters to be considered neighbors (arbitrary value)
+    epsilon = 0.35  # max distance between clusters to be considered neighbors (arbitrary value)
 
     # use DBSCAN algorithm to compare the high density vs low density area in terms of population
     # clusters = DBSCAN(eps=epsilon, min_samples=20).fit(general_area.values)
@@ -49,7 +49,7 @@ def find_high_pop_clusters(general_area, standardized_data):
     seaborn.scatterplot(data=general_area, hue='Populous_predictions', x='Lat', y='Lon', palette='Set2')
     pyplot.show()  # display plot based on high density clusters
 
-    seaborn.scatterplot(data=general_area[general_area.Populous_predictions == 0], hue='Populous_predictions', x='Lat', y='Lon')
+    seaborn.scatterplot(data=general_area[general_area.Populous_predictions == 0], hue='Populous_predictions', x='Lat', y='Lon', palette='Set2')
     pyplot.show()
 
 
@@ -65,7 +65,9 @@ def create_heat_map():
     latitude_list = list(general_region.Lat.values)
 
     # visualize as a heat map through Google Maps
-    google_map = gmplot.GoogleMapPlotter.from_geocode()
+    google_map = gmplot.GoogleMapPlotter.from_geocode('Manhattan, New York')
+    google_map.heatmap(latitude_list, longitude_list)
+    google_map.draw('~/Users/Sarah/Desktop/map1.html')
 
 
 # Press the green button in the gutter to run the script.
