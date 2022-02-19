@@ -4,5 +4,8 @@ Based on a region, this project aims to determine which areas are conisdered 'ho
 ## Output
 The output is supposed to represent a visual cluster map of the hot spots of a region, based on different color codes. In the future, this can be embedded into the ride share app or as a separate application.
 
-### Note
-The entry point and the file to run is named *main.py*
+### Notes
+The entry point and the file to run is named *main.py*</br>
+Raw data is taken from Uber pickups in May 2014 in New York City</br>
+Attached is the link to the data used in this project: https://github.com/fivethirtyeight/uber-tlc-foil-response
+
