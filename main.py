@@ -18,6 +18,7 @@ def get_coordinates():
 
     # plot the coordinate ranges
     seaborn.relplot(data=refined_results, kind='scatter', x='Lat', y='Lon')
+    pyplot.show()  # display plot of general coordinates of area
     return refined_results
 
 
@@ -34,16 +35,18 @@ def find_generalized_clusters(general_area_coordinates):
 # Find the high density clusters (most populous area)
 def find_high_pop_clusters(general_area, standardized_data):
     epsilon = 0.5  # max distance between clusters to be considered neighbors (arbitrary value)
-    # use DBSCAN algorithm to compare the high density vs low density area in terms of population
-    clusters = DBSCAN(epsilon, min_samples=25).fit(general_area.values)
-    predict_clusters = clusters.fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
 
+    # use DBSCAN algorithm to compare the high density vs low density area in terms of population
+    #clusters = DBSCAN(eps=epsilon, min_samples=20).fit(general_area.values)
+
+    predict_clusters = DBSCAN(eps=epsilon, min_samples=25).fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
     created_clusters = pandas.Series(data=predict_clusters)  #
     created_clusters.unique()  # create unique clusters so no duplicates are allowed
 
-    general_area['prediction'] = created_clusters.values
+    general_area['Populous predictions'] = created_clusters.values
 
-    seaborn.scatterplot(data=general_area, hue='Populous Predictions', x='Latitude', y='Longitude')
+    seaborn.scatterplot(data=general_area, hue='Populous predictions', x='Lat', y='Lon', palette='husl')
+    pyplot.show()  # display plot based on high density clusters
 
 
 # Create graphical representation of the busiest zones with people for ride-share drivers
