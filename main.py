@@ -3,6 +3,7 @@ import pandas
 from matplotlib import pyplot
 import seaborn
 import gmplot
+from sklearn import preprocessing
 
 
 # Find the latitude/longitude coordinates for the area of interest
@@ -25,7 +26,7 @@ def find_minimum_distance(coordinates):
 
 # Find the needed clusters
 def find_clusters():
-    return 2
+    coordinates = get_coordinates()
 
 
 # Create graphical representation of the busiest zones with people for ride-share drivers
@@ -35,6 +36,5 @@ def create_heat_map():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # create_heat_map()
-    get_coordinates()
+    create_heat_map()
 
