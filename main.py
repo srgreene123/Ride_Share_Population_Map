@@ -18,12 +18,13 @@ def get_coordinates():
     refined_results = refined_results.sample(n=30000)
 
     # plot the coordinate ranges
-    seaborn.relplot(data=refined_results, kind='scatter', x='Lat', y='Lon')
+    pyplot.title('Coordinates of New York City')
+    seaborn.scatterplot(data=refined_results, x='Lat', y='Lon')
     pyplot.show()  # display plot of general coordinates of area
     return refined_results
 
 
-# Find the needed clusters to represent the area
+# Find the needed clusters to represent the area by normalizing the data
 def find_generalized_clusters(general_area_coordinates):
     normalization_prep = preprocessing.StandardScaler()  # prepares standardization on coordinates
     standardized_data = normalization_prep.fit_transform(general_area_coordinates.values)
@@ -45,10 +46,10 @@ def find_epsilon(general_region):
 # Find the high density clusters (most populous areas)
 def get_high_pop_areas(general_area, standardized_data):
     find_epsilon(general_area)  # max distance between clusters to be considered neighbors (arbitrary value)
-    epsilon = 0.05  # look at 'Epsilon finder' plot created and the max of the function (deepest curvature) is about 0.05
+    epsilon = 0.05  # look at 'Epsilon finder' plot created and curvature's y value is about 0.05
     # use DBSCAN algorithm to compare the high density vs low density area in terms of population
     predict_clusters = DBSCAN(eps=epsilon, min_samples=100).fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
-    created_clusters = pandas.Series(data=predict_clusters)
+    created_clusters = pandas.Series(data=predict_clusters) # better way to store the data to plot it
     created_clusters.unique()  # create unique clusters so no duplicates are allowed
 
     general_area['Populous_predictions'] = created_clusters.values
