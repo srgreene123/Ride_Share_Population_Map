@@ -39,19 +39,32 @@ def find_epsilon(general_region):
     values_between = NearestNeighbors(n_neighbors=2).fit(general_region.values)
     distance, index = values_between.kneighbors(general_region.values)
     distance = numpy.sort(distance, axis=0)
-    distance = distance[:,1][29500:] # to ensure the curve appears
+    distance = distance[:,1][29500:]  # to ensure the curve appears, based on the sample indicated with refined results
+    pyplot.title('Epsilon finder')
     pyplot.plot(distance)
     pyplot.show()
-    max_value =
-    return max_value
 
 
 # Find the high density clusters (most populous area)
 def find_high_pop_clusters(general_area, standardized_data):
     find_epsilon(general_area)  # max distance between clusters to be considered neighbors (arbitrary value)
-
+    epsilon = 0.05  # look at 'Epsilon finder' plot created and the max of the function (deepest curvature) is about 0.05
     # use DBSCAN algorithm to compare the high density vs low density area in terms of population
     # clusters = DBSCAN(eps=epsilon, min_samples=20).fit(general_area.values)
+    predict_clusters = DBSCAN(eps=epsilon, min_samples=50).fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
+    created_clusters = pandas.Series(data=predict_clusters)
+    created_clusters.unique()  # create unique clusters so no duplicates are allowed
+
+    general_area['Populous_predictions'] = created_clusters.values
+
+    pyplot.title('Predicted high density clusters')
+    seaborn.scatterplot(data=general_area, hue='Populous_predictions', x='Lat', y='Lon', palette='Set2')
+    pyplot.show()  # display plot based on high density clusters
+
+    pyplot.title('More specific region')
+    seaborn.scatterplot(data=general_area[general_area.Populous_predictions == 0], hue='Populous_predictions', x='Lat', y='Lon', palette='Set2')
+    pyplot.show()  # display plot that do not include any variance in neighboring distance
+    return general_area
 
 
 # Create graphical representation of the busiest zones with people for ride-share drivers
