@@ -7,6 +7,7 @@ from sklearn.cluster import DBSCAN
 from sklearn.neighbors import NearestNeighbors
 import gmplot
 
+
 # Find the latitude/longitude coordinates for the area of interest
 def get_coordinates():
     # grab public data from https://github.com/fivethirtyeight/uber-tlc-foil-response/tree/master/uber-trip-data
