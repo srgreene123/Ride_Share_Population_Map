@@ -5,7 +5,7 @@ import seaborn
 from sklearn import preprocessing
 from sklearn.cluster import DBSCAN
 from sklearn.neighbors import NearestNeighbors
-
+import gmplot
 
 # Find the latitude/longitude coordinates for the area of interest
 def get_coordinates():
@@ -69,6 +69,14 @@ def find_densest_area():
     general_area = pandas.DataFrame(general_region)
     general_area.head(n=2)
     get_high_pop_areas(general_area, standardized_data)
+
+    # create heat map using google api resources
+    # latitude_list = list(general_area.Lat.values)
+    # longitude_list = list(general_area.Lon.values)
+    # google_map = gmplot.GoogleMapPlotter(40.7831, -73.9712, 10)
+    # google_map.heatmap(latitude_list, longitude_list)
+    # google_map.apikey = 'AIzaSyBYWYqEYfGWrjXLdOGGscba5qVKP34dJnk'
+    # google_map.draw('~/Users/Desktop/Sarah/map1.html')
 
 
 if __name__ == '__main__':
