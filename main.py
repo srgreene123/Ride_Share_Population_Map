@@ -75,7 +75,7 @@ def find_densest_area():
     # longitude_list = list(general_area.Lon.values)
     # google_map = gmplot.GoogleMapPlotter(40.7831, -73.9712, 10)
     # google_map.heatmap(latitude_list, longitude_list)
-    # google_map.apikey = 'AIzaSyBYWYqEYfGWrjXLdOGGscba5qVKP34dJnk'
+    # google_map.apikey = 'hackathonsecretkey'
     # google_map.draw('~/Users/Desktop/Sarah/map1.html')
 
 
