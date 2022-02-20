@@ -47,7 +47,7 @@ def find_high_pop_clusters(general_area, standardized_data):
     find_epsilon(general_area)  # max distance between clusters to be considered neighbors (arbitrary value)
     epsilon = 0.05  # look at 'Epsilon finder' plot created and the max of the function (deepest curvature) is about 0.05
     # use DBSCAN algorithm to compare the high density vs low density area in terms of population
-    predict_clusters = DBSCAN(eps=epsilon, min_samples=50).fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
+    predict_clusters = DBSCAN(eps=epsilon, min_samples=100).fit_predict(standardized_data)  # create high density cluster predictions based on normalized data
     created_clusters = pandas.Series(data=predict_clusters)
     created_clusters.unique()  # create unique clusters so no duplicates are allowed
 
