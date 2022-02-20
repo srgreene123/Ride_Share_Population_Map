@@ -8,4 +8,5 @@ The output is supposed to represent a visual cluster map of the hot spots of a r
 * The entry point and the file to run is named *main.py*</br>
 * Raw data is taken from Uber pickups in May 2014 in New York City</br>
 * Attached is the link to the raw data used in this project: https://github.com/fivethirtyeight/uber-tlc-foil-response
+* Go to the *uber-trip-data folder* to find the particular file that was used ('uber-raw-data-may14.csv')
 
