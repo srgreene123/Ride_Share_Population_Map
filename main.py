@@ -2,7 +2,6 @@ import numpy
 import pandas
 from matplotlib import pyplot
 import seaborn
-import gmplot
 from sklearn import preprocessing
 from sklearn.cluster import DBSCAN
 from sklearn.neighbors import NearestNeighbors
@@ -42,8 +41,8 @@ def find_epsilon(general_region):
     pyplot.show()
 
 
-# Find the high density clusters (most populous area)
-def find_high_pop_clusters(general_area, standardized_data):
+# Find the high density clusters (most populous areas)
+def get_high_pop_areas(general_area, standardized_data):
     find_epsilon(general_area)  # max distance between clusters to be considered neighbors (arbitrary value)
     epsilon = 0.05  # look at 'Epsilon finder' plot created and the max of the function (deepest curvature) is about 0.05
     # use DBSCAN algorithm to compare the high density vs low density area in terms of population
@@ -61,24 +60,17 @@ def find_high_pop_clusters(general_area, standardized_data):
     pyplot.title('Highest density area in New York City')
     seaborn.scatterplot(data=general_area[general_area.Populous_predictions == 0], hue='Populous_predictions', x='Lat', y='Lon', palette='Set2')
     pyplot.show()  # display plot that do not include any variance in neighboring distance
-    return general_area
 
 
-# Create graphical representation of the busiest zones with people for ride-share drivers
-def create_heat_map():
+# Create graphical representation of the busiest zone with people for ride-share drivers
+def find_densest_area():
     general_region = get_coordinates()
     standardized_data = find_generalized_clusters(general_region)
     general_area = pandas.DataFrame(general_region)
     general_area.head(n=2)
-    general_area = find_high_pop_clusters(general_area, standardized_data)
+    get_high_pop_areas(general_area, standardized_data)
 
-    # latitude_list = list(general_area.Lat.values)
-    # longitude_list = list(general_area.Lon.values)
-    # google_map = gmplot.GoogleMapPlotter(40.7831, -73.9712, 10)
-    # google_map.heatmap(latitude_list, longitude_list)
-    # google_map.apikey = 'AIzaSyBYWYqEYfGWrjXLdOGGscba5qVKP34dJnk'
-    # google_map.draw('~/Users/Desktop/Sarah/map1.html')
 
 if __name__ == '__main__':
-    create_heat_map()
+    find_densest_area()
 
